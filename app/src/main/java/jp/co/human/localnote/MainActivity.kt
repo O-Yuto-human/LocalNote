@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier.padding(paddingValues = innerPadding)
                     ) {
-                        MainScreen()
+                        ScreenFrame { LoginScreen() }
                     }
                 }
             }

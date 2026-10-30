@@ -1,13 +1,8 @@
 package jp.co.human.localnote
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,23 +11,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
-import java.nio.file.WatchEvent
 
 @Composable
 fun LoginScreen() {
-    val loginId = rememberSaveable() { mutableStateOf("") }
-    val password = rememberSaveable() { mutableStateOf("")}
-    val message = rememberSaveable() { mutableStateOf("")}
+    val loginId = rememberSaveable { mutableStateOf("") }
+    val password = rememberSaveable { mutableStateOf("")}
+    val message = rememberSaveable { mutableStateOf("")}
 
-    Button(onClick =  {
-        message.value = "入力したID：" + loginId.value
-    }) {
-        Text("入力を確認")
-    }
-    Text(message.value)
-
-    ScreenFrame {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Text("ログイン")
         TextField(
             value = loginId.value,
@@ -49,16 +37,19 @@ fun LoginScreen() {
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        Button(onClick =  {
+            message.value = "入力したID：" + loginId.value
+        }) {
+            Text("入力を確認")
+        }
+        Button(onClick =  {
+            message.value = ""
+            loginId.value = ""
+            password.value = ""
+        }){
+            Text("クリア")
+        }
+        Text(message.value)
     }
-}
 
-@Composable
-fun ScreenFrame(content: @Composable ColumnScope.() -> Unit){
-    Column(
-        Modifier.fillMaxSize()
-            .safeDrawingPadding().padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        content()
-    }
 }
