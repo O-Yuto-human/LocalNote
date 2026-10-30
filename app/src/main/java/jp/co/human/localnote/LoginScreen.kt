@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,6 +24,14 @@ fun LoginScreen() {
     val loginId = rememberSaveable() { mutableStateOf("") }
     val password = rememberSaveable() { mutableStateOf("")}
     val message = rememberSaveable() { mutableStateOf("")}
+
+    Button(onClick =  {
+        message.value = "入力したID：" + loginId.value
+    }) {
+        Text("入力を確認")
+    }
+    Text(message.value)
+
     ScreenFrame {
         Text("ログイン")
         TextField(
