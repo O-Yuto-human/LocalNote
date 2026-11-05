@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLogin: () -> Unit) {
     val loginId = rememberSaveable { mutableStateOf("") }
     val password = rememberSaveable { mutableStateOf("")}
     val message = rememberSaveable { mutableStateOf("")}
@@ -37,10 +37,24 @@ fun LoginScreen() {
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
-        Button(onClick =  {
+
+        /*Button(onClick =  {
             message.value = "入力したID：" + loginId.value
-        }) {
+        }){
             Text("入力を確認")
+        }*/
+
+        Button(onClick =  {
+            message.value = loginError(
+                loginId.value.trim(),password.value
+            ) // MainActivityの関数を呼び、結果を出力
+
+            if(message.value.isEmpty()){
+                password.value = ""
+                onLogin()
+            }
+        }) {
+            Text("ログイン")
         }
         Button(onClick =  {
             message.value = ""

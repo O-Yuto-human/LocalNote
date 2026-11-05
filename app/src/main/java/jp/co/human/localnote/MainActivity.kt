@@ -95,3 +95,14 @@ fun App(){
         }
     }
 }
+
+@Composable
+fun HomeScreen(onLogout: () -> Unit){
+    ScreenFrame {
+        Text("ホーム")
+
+        Button(onClick = onLogout){
+            Text("ログアウト")
+        }
+    }
+}
