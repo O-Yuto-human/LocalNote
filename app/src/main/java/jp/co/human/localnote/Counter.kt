@@ -12,10 +12,10 @@ import jp.co.human.localnote.ui.theme.LocalNoteTheme
 @Composable
 fun Counter(){
     val message = remember {
-        mutableStateOf("0")
+        mutableStateOf(0)
     }
     Column() {
-        Text(message.value)
+        Text(message.value.toString())
         Button(
             {message.value += 1}
         ) {

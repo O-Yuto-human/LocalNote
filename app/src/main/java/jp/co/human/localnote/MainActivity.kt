@@ -10,11 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import jp.co.human.localnote.ui.theme.LocalNoteTheme
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent{
             LocalNoteTheme {
-                App()
+                Counter()
             }
 
             /*LocalNoteTheme {
@@ -104,5 +107,22 @@ fun HomeScreen(onLogout: () -> Unit){
         Button(onClick = onLogout){
             Text("ログアウト")
         }
+    }
+}
+
+@Composable
+fun DatabaseCheckScreen(){
+    val context = LocalContext.current
+    val db = remember{ DbProvider.get(context) }
+    val scope = rememberCoroutineScope()
+    val result = remember { mutableStateOf("")}
+
+    ScreenFrame {
+        Button(onClick = {
+            scope.launch {
+                result.value = "登録件数：" + db.userDao().count()
+            }
+        }) { Text("DBを確認")}
+        Text(result.value)
     }
 }
